@@ -4,8 +4,37 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.http import Http404
+from rest_framework import mixins,generics
 # Create your views here.
 
+# Below method same work but used Mixin and generics
+class CourseListView(mixins.ListModelMixin,mixins.CreateModelMixin,generics.GenericAPIView):
+    queryset = Course.objects.all()
+    serializer_class = CourseSerializer
+    def get(self,request):
+        return self.list(request)
+
+    def post(self,request):
+        return self.create(request)    
+
+
+class CourseDetailView(generics.GenericAPIView,mixins.RetrieveModelMixin,
+                            mixins.UpdateModelMixin,mixins.DestroyModelMixin):
+        queryset = Course.objects.all()
+        serializer_class = CourseSerializer
+
+        def get(self,request,pk):
+           return self.retrieve(request,pk)
+
+        def put(self,request,pk):
+           return self.update(request,pk)
+
+        def delete(self,request,pk):
+          return self.destroy(request,pk)    
+
+
+# Below method same work but used Class based view
+'''
 class CourseListView(APIView):
     def get(self,request):
         courses =  Course.objects.all()
@@ -28,7 +57,7 @@ class CourseDetailView(APIView):
         except Course.DoesNotExist:
             raise Http404  
 
-    def get(self,request,pk):
+    def get(self,pk):
         course = self.get_course(pk)
         serializer = CourseSerializer(course)
         return Response(serializer.data)
@@ -38,9 +67,8 @@ class CourseDetailView(APIView):
         if courseSerializer.is_valid():
             courseSerializer.save()
             return Response(courseSerializer.data,status = status.HTTP_201_CREATED)
-
         return Response(courseSerializer.errors)        
-    def delete(self,request,pk):
+    def delete(self,pk):
         course = self.get_course(pk)
         course.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)   
+        return Response(status=status.HTTP_204_NO_CONTENT)   '''
