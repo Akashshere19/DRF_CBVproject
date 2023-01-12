@@ -1,5 +1,5 @@
 from django.urls import path
-from CBVApp.views import CourseListView,CourseDetailView
+from CBVApp.views import CourseListView ,CourseDetailView
 urlpatterns = [
     
     path('courses/',CourseListView.as_view()),
