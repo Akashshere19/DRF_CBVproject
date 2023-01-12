@@ -33,6 +33,8 @@ class CourseDetailView(generics.GenericAPIView,mixins.RetrieveModelMixin,
           return self.destroy(request,pk)    
 
 
+
+
 # Below method same work but used Class based view
 '''
 class CourseListView(APIView):
