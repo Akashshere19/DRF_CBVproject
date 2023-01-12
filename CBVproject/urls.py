@@ -15,11 +15,16 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+#from CBVApp.views import CourseViewSet # routerview
+#from rest_framework.routers import DefaultRouter ## routerview
+
+#router = DefaultRouter() # routerview
+#router.register('courses',CourseViewSet,basename='course') # routerview
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/',include('CBVApp.urls')),
- 
+   # path('api/',include(router.urls)), # routerview
 
 
 ]
